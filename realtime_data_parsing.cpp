@@ -1,4 +1,3 @@
-#include <fstream>
 #include <iostream>
 #include <string>
 #include "Memory.hpp"
@@ -7,25 +6,16 @@ using namespace std;
 
 int main(){
     // absolute path of input dummy file containing meminfo data
-    ifstream meminfo_file("C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                    "Computer Systems and Microprocessors\\projects\\realtime_data_parsing\\meminfo.txt");
+    string meminfo_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                           "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
 
-    if(!meminfo_file.is_open()){
-        cerr << "Output file could not be opened -- exiting." << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    string line;
     string free_memory, total_memory, buffers_memory, cached_memory;
 
-    while (getline(meminfo_file, line)){
+    total_memory = get_memory_stats(meminfo_filename_path, "MemTotal:");
+    free_memory = get_memory_stats(meminfo_filename_path, "MemFree:");
+    buffers_memory = get_memory_stats(meminfo_filename_path, "Buffers:");
+    cached_memory = get_memory_stats(meminfo_filename_path, "Cached:");
 
-        free_memory = get_memory_stat(line, "MemFree:");
-        total_memory = get_memory_stat(line, "MemTotal:");
-        buffers_memory = get_memory_stat(line, "Buffers:");
-        cached_memory = get_memory_stat(line, "Cached:");
-
-    }
 
     cout << "---------------------------------------------------------------------------------------------" << endl;
     cout << "MEMORY     " << "Total: " << total_memory << endl;
@@ -33,8 +23,6 @@ int main(){
     cout << "           Buffers: " << buffers_memory << endl;
     cout << "           Cached: " << cached_memory << endl;
     cout << "---------------------------------------------------------------------------------------------" << endl;
-
-    meminfo_file.close();
 
     return 0;
 }
