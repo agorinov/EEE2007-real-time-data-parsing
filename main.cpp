@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "Memory.hpp"
+#include "meminfo.hpp"
+#include "stat.hpp"
 
 using namespace std;
 
@@ -23,6 +24,13 @@ int main(){
     cout << "           Buffers: " << buffers_memory << endl;
     cout << "           Cached: " << cached_memory << endl;
     cout << "---------------------------------------------------------------------------------------------" << endl;
+
+
+    string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt)";
+
+    get_cpu_stats(stat_filename_path);
+
 
     return 0;
 }

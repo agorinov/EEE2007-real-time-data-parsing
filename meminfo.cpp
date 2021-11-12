@@ -1,4 +1,4 @@
-#include "Memory.hpp"
+#include "meminfo.hpp"
 
 string get_memory_stats(string stats_filename, string field){
 
@@ -9,7 +9,7 @@ string get_memory_stats(string stats_filename, string field){
     ifstream meminfo_file(stats_filename);
 
     if(!meminfo_file.is_open()){
-        cerr << "Output file could not be opened -- exiting." << endl;
+        cerr << "Input file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
     string line;
