@@ -1,8 +1,9 @@
-//
-// Created by andre on 12/11/2021.
-//
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iostream>
 
-#ifndef REALTIME_DATA_PARSING3_UPTIME_HPP
-#define REALTIME_DATA_PARSING3_UPTIME_HPP
 
-#endif //REALTIME_DATA_PARSING3_UPTIME_HPP
+using namespace std;
+
+vector<string>get_uptime(string);
