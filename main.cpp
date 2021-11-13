@@ -2,10 +2,19 @@
 #include <string>
 #include "meminfo.hpp"
 #include "stat.hpp"
+#include "uptime.hpp"
 
 using namespace std;
 
 int main(){
+
+    string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
+
+
+    get_cpu_stats(stat_filename_path);
+
+
     // absolute path of input dummy file containing meminfo data
     string meminfo_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                            "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
@@ -25,12 +34,11 @@ int main(){
     cout << "           Cached: " << cached_memory << endl;
     cout << "---------------------------------------------------------------------------------------------" << endl;
 
+    string uptime_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
 
-    string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt)";
 
-    get_cpu_stats(stat_filename_path);
-
+    get_uptime(uptime_filename_path);
 
     return 0;
 }
