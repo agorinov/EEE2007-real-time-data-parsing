@@ -1,12 +1,12 @@
 #include "meminfo.hpp"
 
-string get_memory_stats(string stats_filename, string field){
+string get_memory_stats(string meminfo_filename_path, string field){
 
     string result = "No data";
     // checks if line starts with field, followed by some number of spaces, then digits
     // if so, returns digits
 
-    ifstream meminfo_file(stats_filename);
+    ifstream meminfo_file(meminfo_filename_path);
 
     if(!meminfo_file.is_open()){
         cerr << "Input file could not be opened -- exiting." << endl;
