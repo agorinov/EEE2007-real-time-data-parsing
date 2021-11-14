@@ -3,7 +3,10 @@
 #include <fstream>
 #include <regex>
 #include <iomanip>
+#include "sstream"
 
 using namespace std;
 
-void get_cpu_stats(string);
+string get_cpu_stats(string);
+
+string get_cpu_percetages(string);
