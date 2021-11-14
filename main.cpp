@@ -38,7 +38,11 @@ int main(){
                                 "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
 
 
-    get_uptime(uptime_filename_path);
+    vector <string>sys_up_idle = get_uptime(uptime_filename_path);
+
+    cout << "SYSTEM     " << sys_up_idle[0] << endl;
+    cout << "           " << sys_up_idle[1] << endl;
+
 
     return 0;
 }
