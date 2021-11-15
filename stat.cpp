@@ -1,7 +1,14 @@
 #include "stat.hpp"
 
-void get_cpu_stats(string filename){
-
+// Parse the stat file using regex and for each cpu, extract the following data:
+//      name: eg cpu5
+//      user: normal processes executing in user mode
+//      nice: niced processes executing in user mode
+//      system: processes executing in kernel mode
+//      idle: twiddling thumbs
+// store data in a struct
+// return vector of structs which scales according to number of CPUs
+vector<CPU> get_cpu_stats(string filename){
 
     ifstream stat_file(filename);
 
@@ -10,55 +17,41 @@ void get_cpu_stats(string filename){
         exit(EXIT_FAILURE);
     }
 
+    vector<CPU> all_CPUs;
     string line;
-    string cpu_name;
-    int cpu_counter = 0;
-    float busy_time, nice_time, system_time, idle_time, total;
-    float busy_percent, nice_percent, system_percent, idle_percent, total_percent;
-
-    cout << "---------------------------------------------------------------------------------------------" << endl;
-    cout << "Total CPU Cores: " << "CPU_PLACEHOLDER" << endl;
-    cout << "---------------------------------------------------------------------------------------------" << endl;
-    cout << "CPU" << setw(11) << "busy" << setw(10)  << "idle"  << setw(10) << "system" << setw(10) <<  "nice" << endl;
-
     while (getline(stat_file, line)) {
-
         smatch m;
         regex reg_exp(R"(^(cpu\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+))");
         if (regex_search(line, m, reg_exp)) {
-//            cpu_counter++;
-            cpu_name = m[1];
-            busy_time = stof(m[2]);
-            nice_time = stof(m[3]);
-            system_time = stof(m[4]);
-            idle_time = stof(m[5]);
 
-            total = busy_time + nice_time + system_time + idle_time;
-            busy_percent = busy_time/total*100;
-            nice_percent = nice_time/total*100;
-            system_percent = system_time/total*100;
-            idle_percent = idle_time/total*100;
+            CPU cpu{};
+            cpu.name = m[1];
+            cpu.busy_time = stof(m[2]);
+            cpu.nice_time = stof(m[3]);
+            cpu.system_time = stof(m[4]);
+            cpu.idle_time = stof(m[5]);
 
-            cout << "cpu" << cpu_counter++;
-//            cout.precision(2);
-            cout << setw(10) << busy_percent;
-            cout << setw(10) << idle_percent;
-            cout << setw(10) << system_percent;
-            cout << setw(10) << nice_percent << endl;
-
-//            cout << boost::format("%f2.2 %f2.2 %f2.2 %f2.2") %  busy_percent % idle_percent % system_percent % nice_percent << endl;
-
-
+            all_CPUs.push_back(cpu);
 
         }
     }
-
-//    cout << "busy: " << busy_time << endl;
-//    cout << "nice: " << nice_time << endl;
-//    cout << "system: " << system_time << endl;
-//    cout << "idle: " << idle_time << endl;
-//    cout << "cpu cores: " << cpu_counter << endl;
-
     stat_file.close();
+    return all_CPUs;
+}
 
+// convert CPU stats to percentages and store them as float values in an array
+// return a pointer to array
+float *convert_to_percent(float busy_time, float nice_time, float system_time, float idle_time){
+
+   static float cpu_perc[4]; // needs to be static otherwise output is weird
+
+    float total = busy_time + nice_time + system_time + idle_time;
+
+    cpu_perc[0] = busy_time / total * 100;
+    cpu_perc[1] = nice_time / total * 100;
+    cpu_perc[2] = system_time / total * 100;
+    cpu_perc[3] = idle_time / total * 100;
+
+
+    return cpu_perc;
 }

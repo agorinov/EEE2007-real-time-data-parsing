@@ -11,8 +11,28 @@ int main(){
     string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                 "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
 
+    vector<CPU> all_CPUs; // vector containing structs of type CPU
+    all_CPUs = get_cpu_stats(stat_filename_path);
 
-    get_cpu_stats(stat_filename_path);
+    cout << "---------------------------------------------------------------------------------------------" << endl;
+    cout << "Total CPU Cores: " << all_CPUs.size() << endl;
+    cout << "---------------------------------------------------------------------------------------------" << endl;
+    cout << "CPU" << setw(10) << "busy" << setw(12) << "idle" << setw(12) << "system" << setw(11) << "nice" << endl;
+
+    float *cpu_perc;
+    for (CPU cpu:all_CPUs) {
+
+        cpu_perc = convert_to_percent(cpu.busy_time, cpu.nice_time, cpu.system_time, cpu.idle_time);
+
+        cout << fixed;
+        cout << setprecision(2);
+        cout << cpu.name << setw(10) << cpu_perc[0] << '%' << setw(10) << cpu_perc[3] << '%' << setw(10) << cpu_perc[2] << '%' << setw(10) << cpu_perc[1] << '%' << endl;
+
+    }
+//    delete[] cpu_perc; //TODO: find out if array memory needs to be freed
+
+
+
 
 
     // absolute path of input dummy file containing meminfo data
