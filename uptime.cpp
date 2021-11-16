@@ -9,6 +9,7 @@ vector<string> get_uptime(string uptime_filename_path){
         cerr << "Input file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
+
     string line;
     int sys_up_time = 0;
     int sys_idle_time = 0;
