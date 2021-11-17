@@ -6,6 +6,9 @@
 #include <chrono>
 #include <thread>
 
+// TODO: optimize data types before submission eg: short vs long vs unsigned int, etc
+// TODO:
+
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "EndlessLoop"
@@ -16,7 +19,8 @@ void clearScreen();
 int main(){
 
     while(true) {
-        clearScreen();
+//        clearScreen();
+        system("cls");
 
         string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                     "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
@@ -77,9 +81,11 @@ int main(){
 
         // TODO: print energy consumption
 
+
+
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-
+        break; //TODO: delete before submitting
 
     }
 
