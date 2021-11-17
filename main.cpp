@@ -75,7 +75,11 @@ int main(){
         cout << "SYSTEM" << setw(39) << sys_time.up_time << endl;
         cout << setw(44)  << sys_time.idle_time << endl;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        // TODO: print energy consumption
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+
 
     }
 
