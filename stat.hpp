@@ -6,7 +6,7 @@
 
 using namespace std;
 
-struct CPU
+struct CPU // TODO: rename struct to "core"
 {
     string name;
     float busy_time;

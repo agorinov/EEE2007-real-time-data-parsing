@@ -7,7 +7,8 @@
 #include <thread>
 
 // TODO: optimize data types before submission eg: short vs long vs unsigned int, etc
-// TODO:
+// TODO: conform to an accepted naming convention for functions, variables, structs, etc
+// TODO: figure out alternative to setw() that fixes problem of data values being of varying lengths and causing spacing in front to change
 
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic push
@@ -25,9 +26,9 @@ int main(){
         string stat_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                     "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
 
-        vector<CPU> all_CPUs; // vector containing structs of type CPU
+        vector<CPU> all_CPUs; // vector containing structs of type CPU //TODO: rename to CPU
         all_CPUs = get_cpu_stats(stat_filename_path);
-        unsigned int number_of_CPUs = all_CPUs.size();
+        unsigned int number_of_CPUs = all_CPUs.size(); //TODO: rename to "number of core"
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << "Total CPU Cores: " << number_of_CPUs << endl;
@@ -76,10 +77,21 @@ int main(){
 
         Sys_time sys_time = get_up_idle_time(uptime_filename_path, number_of_CPUs);
 
-        cout << "SYSTEM" << setw(39) << sys_time.up_time << endl;
-        cout << setw(44)  << sys_time.idle_time << endl;
+        string up_time = seconds_to_time(sys_time.up_time);
+        string idle_time = seconds_to_time(sys_time.idle_time/number_of_CPUs); // average idle time per CPU
 
-        // TODO: print energy consumption
+        cout << "SYSTEM" << setw(12) << "UP for " << up_time << endl;
+        cout << setw(20)  << "IDLE for " << idle_time << endl;
+
+        Energy_used energy_used = calculate_energy_used(sys_time.up_time, sys_time.idle_time/number_of_CPUs);
+
+        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << "ENERGY" << endl;
+        cout << fixed;
+        cout << setprecision(2); //TODO: figure out why this rounds to 2 dec. in CPU print but not here
+        cout << setw(28) << "In Active State: " << energy_used.active_energy << endl;
+        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << endl;
+
 
 
 
@@ -92,9 +104,6 @@ int main(){
     return 0;
 }
 
-void clearScreen(){
-    cout << "\033[2J\033[1;1H";
-}
 
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic pop

@@ -7,8 +7,8 @@
 using namespace std;
 
 struct Sys_time{
-    string up_time;
-    string idle_time;
+    float up_time;
+    float idle_time;
 };
 
 struct Energy_used{
@@ -18,6 +18,6 @@ struct Energy_used{
 
 Sys_time get_up_idle_time(string, unsigned int);
 
-string seconds_to_time(int);
+string seconds_to_time(unsigned int);
 
-Energy_used calculate_energy_used(unsigned int, unsigned int);
+Energy_used calculate_energy_used(float, float);
