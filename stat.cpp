@@ -43,9 +43,9 @@ vector<CPU> get_cpu_stats(string filename){
 // return a pointer to array
 float *convert_to_percent(float busy_time, float nice_time, float system_time, float idle_time){
 
-   static float cpu_perc[4]; // needs to be static otherwise output is weird
+   static float cpu_perc[4]; // needs to be static otherwise output is weird //TODO: find out why
 
-    float total = busy_time + nice_time + system_time + idle_time;
+    float total = busy_time + nice_time + system_time + idle_time; // TODO: verify that these values alone make up total
 
     cpu_perc[0] = busy_time / total * 100;
     cpu_perc[1] = nice_time / total * 100;
@@ -54,4 +54,18 @@ float *convert_to_percent(float busy_time, float nice_time, float system_time, f
 
 
     return cpu_perc;
+}
+
+Energy_used calculate_energy_used(float busy_time, float nice_time, float system_time, float idle_time){
+
+    //TODO: consider getting total CPU value with regex in get_cpu_stats() instead of manually adding
+    unsigned int active_time = busy_time + nice_time + system_time + idle_time; // TODO: verify that these values alone make up active time
+
+    unsigned int cpu_active_power = 60; // Watts
+    unsigned int cpu_idle_power = 10; // Watts
+
+    string active_energy = to_string(cpu_active_power * active_time);
+    string idle_energy = to_string(cpu_idle_power * idle_time);
+
+    return Energy_used{active_energy, idle_energy};
 }
