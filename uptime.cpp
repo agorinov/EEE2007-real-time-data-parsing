@@ -1,7 +1,11 @@
 #include "uptime.hpp"
 
-
-vector<string> get_uptime(string uptime_filename_path){
+// Parse uptime file to extract the following data, in seconds:
+//      up time: Wall clock since boot
+//      idle time: combined idle time of all cpus
+// Divide idle time by number of CPUs to obtain average idle time per CPU
+// return struct containing up time and average idle time as strings
+Sys_time get_up_idle_time(string uptime_filename_path, unsigned int number_of_CPUs){
 
     ifstream uptime_file(uptime_filename_path);
 
@@ -11,41 +15,34 @@ vector<string> get_uptime(string uptime_filename_path){
     }
 
     string line;
-    int sys_up_time = 0;
-    int sys_idle_time = 0;
-    vector<string> sys_up_idle{};
+    unsigned int up_time_secs = 0;
+    unsigned int idle_time_secs = 0;
 
     getline(uptime_file, line);
 
-
+    // split space-delimited line into two values:
     string space_delimiter = " ";
-
-//    size_t pos = 0;
-//    pos = line.find(space_delimiter);
-//    fields.push_back(line.substr(0, pos));
-//    line.erase(0, pos + space_delimiter.length());
-//    fields.push_back(line);
-
     size_t pos = 0;
     pos = line.find(space_delimiter);
-    sys_up_time = stoi(line.substr(0, pos));
+    up_time_secs = stoi(line.substr(0, pos));
     line.erase(0, pos + space_delimiter.length());
-    sys_idle_time = stoi(line);
+    idle_time_secs = stoi(line);
 
-    int seconds, hours, minutes;
-    seconds = sys_up_time;
-    minutes = seconds / 60;
-    hours = minutes / 60;
-    sys_up_idle.push_back( "UP for " + to_string(hours) + " hours " + to_string(minutes%60) + " minutes and " +
-                                   to_string(seconds%60) + " seconds");
+    string up_time = seconds_to_time(up_time_secs);
+    string idle_time = seconds_to_time(idle_time_secs/number_of_CPUs);
 
-    seconds = sys_idle_time;
-    minutes = seconds / 60;
-    hours = minutes / 60;
-    sys_up_idle.push_back( "IDLE for " + to_string(hours) + " hours " + to_string(minutes%60) + " minutes and " +
-                           to_string(seconds%60) + " seconds");
+    return Sys_time{up_time, idle_time};
+}
 
+string seconds_to_time(int total_seconds){
 
+    unsigned int hrs;
+    unsigned int mins;
+    unsigned int secs;
 
-    return sys_up_idle;
+    hrs = total_seconds / 3600;
+    mins = (total_seconds % 3600) / 60;
+    secs = (total_seconds % 3600) % 60;
+
+    return to_string(hrs) + " hours " + to_string(mins) + " minutes and " + to_string(secs) + " seconds";
 }

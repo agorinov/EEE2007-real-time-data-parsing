@@ -6,4 +6,11 @@
 
 using namespace std;
 
-vector<string>get_uptime(string);
+struct Sys_time{
+    string up_time;
+    string idle_time;
+};
+
+Sys_time get_up_idle_time(string, unsigned int);
+
+string seconds_to_time(int);

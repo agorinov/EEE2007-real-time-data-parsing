@@ -6,6 +6,9 @@
 #include <chrono>
 #include <thread>
 
+// CLion-specific TODO: remove before submitting
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "EndlessLoop"
 using namespace std;
 
 void clearScreen();
@@ -20,11 +23,12 @@ int main(){
 
         vector<CPU> all_CPUs; // vector containing structs of type CPU
         all_CPUs = get_cpu_stats(stat_filename_path);
+        unsigned int number_of_CPUs = all_CPUs.size();
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
-        cout << "Total CPU Cores: " << all_CPUs.size() << endl;
+        cout << "Total CPU Cores: " << number_of_CPUs << endl;
         cout << "---------------------------------------------------------------------------------------------" << endl;
-        cout << "CPU" << setw(10) << "busy" << setw(12) << "idle" << setw(12) << "system" << setw(11) << "nice" << endl;
+        cout << "CPU" << setw(10) << "busy" << setw(12) << "idle" << setw(13) << "system" << setw(10) << "nice" << endl;
 
         float *cpu_perc;
         for (CPU cpu: all_CPUs) {
@@ -56,20 +60,20 @@ int main(){
 
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
-        cout << "MEMORY     " << "Total: " << total_memory << endl;
-        cout << "           Free: " << free_memory << endl;
-        cout << "           Buffers: " << buffers_memory << endl;
-        cout << "           Cached: " << cached_memory << endl;
+        cout << "MEMORY" << setw(12) << "Total: " << total_memory << endl;
+        cout << setw(17) << "Free: " << free_memory << endl;
+        cout << setw(20) << "Buffers: " << buffers_memory << endl;
+        cout << setw(19) << "Cached: " << cached_memory << endl;
         cout << "---------------------------------------------------------------------------------------------" << endl;
 
         string uptime_filename_path = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                       "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
 
 
-        vector<string> sys_up_idle = get_uptime(uptime_filename_path);
+        Sys_time sys_time = get_up_idle_time(uptime_filename_path, number_of_CPUs);
 
-        cout << "SYSTEM     " << sys_up_idle[0] << endl;
-        cout << "           " << sys_up_idle[1] << endl;
+        cout << "SYSTEM" << setw(39) << sys_time.up_time << endl;
+        cout << setw(44)  << sys_time.idle_time << endl;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
@@ -81,3 +85,6 @@ int main(){
 void clearScreen(){
     cout << "\033[2J\033[1;1H";
 }
+
+// CLion-specific TODO: remove before submitting
+#pragma clang diagnostic pop
