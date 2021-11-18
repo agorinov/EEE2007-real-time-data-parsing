@@ -32,22 +32,23 @@ Sys_time get_up_idle_time(string uptime_filename_path, unsigned int number_of_CP
     string token;
     bool obtained_second_value = false;
     // assigns first and second values in line to up_time and idle_time
-    while(getline(uptime_file, token, ' ')){     // does this code work better?
+    while(getline(uptime_file, token, ' ')){
         if (obtained_second_value){
-            cout << "idle_time: "<< token << endl;
+//            cout << "idle_time: "<< token << endl;
             idle_time_secs = stof(token);
         } else {
-            cout << "up_time: "<< token << endl;
+//            cout << "up_time: "<< token << endl;
             up_time_secs = stof(token);
             obtained_second_value = true;
         }
     }
 
+//    cout << "up_time_secs: " << up_time_secs << endl;
+    float up_time = up_time_secs;
+    float idle_time = idle_time_secs/number_of_CPUs; // average idle time per CPU
 
-    string up_time = seconds_to_time(up_time_secs);
-    string idle_time = seconds_to_time(idle_time_secs/number_of_CPUs); // average idle time per CPU
-
-    return Sys_time{up_time_secs, idle_time_secs};
+//    cout << "idle time: " << idle_time << endl;
+    return Sys_time{up_time, idle_time};
 }
 
 string seconds_to_time(unsigned int total_seconds){
@@ -65,8 +66,10 @@ string seconds_to_time(unsigned int total_seconds){
 
 Energy_used calculate_energy_used(float time_since_boot, float idle_time){
 
+//    cout << "time_since_boot: " << time_since_boot << endl;
+//    cout << "idle time: " << idle_time << endl;
     float active_time = time_since_boot - idle_time;
-    cout << "active time: " << active_time << endl;
+//    cout << "active time: " << active_time << endl;
 
     float cpu_active_power = 60; // Watts
     float cpu_idle_power = 10; // Watts

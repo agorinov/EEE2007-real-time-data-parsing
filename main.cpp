@@ -8,7 +8,6 @@
 
 // TODO: optimize data types before submission eg: short vs long vs unsigned int, etc
 // TODO: conform to an accepted naming convention for functions, variables, structs, etc
-// TODO: figure out alternative to setw() that fixes problem of data values being of varying lengths and causing spacing in front to change
 
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic push
@@ -30,7 +29,8 @@ int main(){
         all_CPUs = get_cpu_stats(stat_filename_path);
         unsigned int number_of_CPUs = all_CPUs.size(); //TODO: rename to "number of core"
 
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+//        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(60) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Total CPU Cores: " << number_of_CPUs << endl;
         cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << "CPU" << setw(10) << "busy" << setw(12) << "idle" << setw(13) << "system" << setw(10) << "nice" << endl;
@@ -87,7 +87,10 @@ int main(){
         string idle_time = seconds_to_time(sys_time.idle_time); // average idle time per CPU
 
         cout << "SYSTEM" << setw(12) << "UP for " << up_time << endl;
-        cout << setw(20)  << "IDLE for " << idle_time << endl; //TODO: figure out why this outputs the wrong value
+        cout << setw(20)  << "IDLE for " << idle_time << endl;
+
+//        cout << "time_since_boot: " << sys_time.up_time << endl;
+//        cout << "idle time: " << sys_time.idle_time << endl;
 
         Energy_used energy_used = calculate_energy_used(sys_time.up_time, sys_time.idle_time);
 
@@ -95,7 +98,7 @@ int main(){
         cout << "ENERGY" << endl;
         cout << fixed << setprecision(2);
         cout << setw(28) << "In Active State: " << energy_used.active_energy << " MJoules" << endl;
-        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << " MJoules" << endl; //TODO: figure out why this outputs a negative value
+        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << " MJoules" << endl;
         cout << "---------------------------------------------------------------------------------------------" << endl;
 
 
