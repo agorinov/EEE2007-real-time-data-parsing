@@ -54,8 +54,8 @@ Energy_used calculate_energy_used(float time_since_boot, float idle_time){
     float cpu_active_power = 60; // Watts
     float cpu_idle_power = 10; // Watts
 
-    string active_energy = to_string(cpu_active_power * active_time / 1000000) + " MJoules";
-    string idle_energy = to_string(cpu_idle_power * idle_time / 1000000) + " MJoules";
+    float active_energy = cpu_active_power * active_time / 1000000;
+    float idle_energy = cpu_idle_power * idle_time / 1000000;
 
     return Energy_used{active_energy, idle_energy};
 }

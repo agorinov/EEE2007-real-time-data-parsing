@@ -48,8 +48,14 @@ int main(){
         }
         //    delete[] cpu_perc; //TODO: find out if array memory needs to be freed
 
+        string page_in_out_ratio = "N/A";
+        string swap_in_out_ratio = "N/A";
+        string interrupts_serviced = "N/A";
+        string context_switch_counts = "N/A";
 
-
+        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(10) << "Page in/out ratio: " << page_in_out_ratio << " " << setw(25) << "Swap in/out ratio: " << swap_in_out_ratio << endl;
+        cout << setw(10) << "Interrupts serviced: " << interrupts_serviced << " " << setw(27) << "Context switch counts: " << context_switch_counts << endl;
 
 
         // absolute path of input dummy file containing meminfo data
@@ -87,10 +93,10 @@ int main(){
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << "ENERGY" << endl;
-        cout << fixed;
-        cout << setprecision(2); //TODO: figure out why this rounds to 2 dec. in CPU print but not here
-        cout << setw(28) << "In Active State: " << energy_used.active_energy << endl;
-        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << endl;
+        cout << fixed << setprecision(2);
+        cout << setw(28) << "In Active State: " << energy_used.active_energy << " MJoules" << endl;
+        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << " MJoules" << endl;
+        cout << "---------------------------------------------------------------------------------------------" << endl;
 
 
 

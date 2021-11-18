@@ -12,8 +12,8 @@ struct Sys_time{
 };
 
 struct Energy_used{
-    string active_energy;
-    string idle_energy;
+    float active_energy;
+    float idle_energy;
 };
 
 Sys_time get_up_idle_time(string, unsigned int);
