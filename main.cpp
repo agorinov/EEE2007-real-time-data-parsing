@@ -84,18 +84,18 @@ int main(){
         Sys_time sys_time = get_up_idle_time(uptime_filename_path, number_of_CPUs);
 
         string up_time = seconds_to_time(sys_time.up_time);
-        string idle_time = seconds_to_time(sys_time.idle_time/number_of_CPUs); // average idle time per CPU
+        string idle_time = seconds_to_time(sys_time.idle_time); // average idle time per CPU
 
         cout << "SYSTEM" << setw(12) << "UP for " << up_time << endl;
-        cout << setw(20)  << "IDLE for " << idle_time << endl;
+        cout << setw(20)  << "IDLE for " << idle_time << endl; //TODO: figure out why this outputs the wrong value
 
-        Energy_used energy_used = calculate_energy_used(sys_time.up_time, sys_time.idle_time/number_of_CPUs);
+        Energy_used energy_used = calculate_energy_used(sys_time.up_time, sys_time.idle_time);
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << "ENERGY" << endl;
         cout << fixed << setprecision(2);
         cout << setw(28) << "In Active State: " << energy_used.active_energy << " MJoules" << endl;
-        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << " MJoules" << endl;
+        cout << setw(26) << "In Idle State: " << energy_used.idle_energy << " MJoules" << endl; //TODO: figure out why this outputs a negative value
         cout << "---------------------------------------------------------------------------------------------" << endl;
 
 

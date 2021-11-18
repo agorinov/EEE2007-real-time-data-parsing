@@ -45,7 +45,7 @@ float *convert_to_percent(float busy_time, float nice_time, float system_time, f
 
    static float cpu_perc[4]; // needs to be static otherwise output is weird //TODO: find out why
 
-    float total = busy_time + nice_time + system_time + idle_time; // TODO: verify that these values alone make up total
+    float total = busy_time + nice_time + system_time + idle_time;
 
     cpu_perc[0] = busy_time / total * 100;
     cpu_perc[1] = nice_time / total * 100;
