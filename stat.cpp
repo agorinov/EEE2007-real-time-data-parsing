@@ -21,8 +21,8 @@ vector<CPU> get_cpu_stats(string filename){
     string line;
     while (getline(stat_file, line)) {
         smatch m;
-        regex reg_exp(R"(^(cpu\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+))");
-        if (regex_search(line, m, reg_exp)) {
+        regex cpu_reg_exp(R"(^(cpu\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+))");
+        if (regex_search(line, m, cpu_reg_exp)) {
 
             CPU cpu{};
             cpu.name = m[1];
@@ -32,9 +32,15 @@ vector<CPU> get_cpu_stats(string filename){
             cpu.idle_time = stof(m[5]);
 
             all_CPUs.push_back(cpu);
+        }
+
+//        regex intr_reg_exp(R"(^intr\s+(\d+))");
+//        if (regex_search(line, m, intr_reg_exp)) {
+//
+//
+//        }
 
         }
-    }
     stat_file.close();
     return all_CPUs;
 }
