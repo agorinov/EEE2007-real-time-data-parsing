@@ -8,7 +8,7 @@
 //      idle: twiddling thumbs
 // store data in a struct
 // return vector of structs which scales according to number of CPUs
-vector<CPU> get_cpu_stats(string filename){
+vector<CPU> get_cpu_stats(string filename){ //TODO: consider returning pointers to save memory
 
     ifstream stat_file(filename);
 
@@ -50,7 +50,7 @@ vector<CPU> get_cpu_stats(string filename){
 // return a pointer to array
 float *convert_to_percent(float busy_time, float nice_time, float system_time, float idle_time){
 
-   static float cpu_perc[4]; // needs to be static otherwise output is weird //TODO: find out why
+    static float cpu_perc[4]; // needs to be static otherwise output is weird
 
     float total = busy_time + nice_time + system_time + idle_time;
 
@@ -88,5 +88,55 @@ string get_intr_serv(string filename){
     stat_file.close();
     return interrupts_serviced;
 }
+
+string get_ctxt_switch_count(string filename){
+
+    ifstream stat_file(filename);
+
+    if(!stat_file.is_open()) {
+        cerr << "Input file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    string line;
+    string ctxt_switch_count = "N/A";
+    while (getline(stat_file, line)) {
+        smatch m;
+
+        //getting number of interrupts
+        regex ctxt_reg_exp(R"(^ctxt\s+(\d+))");
+        if (regex_search(line, m, ctxt_reg_exp)) {
+            ctxt_switch_count =  m[1];
+        }
+    }
+
+    stat_file.close();
+    return ctxt_switch_count;
+}
+
+//string get_swap_ratio(string filename){
+//
+//    ifstream stat_file(filename);
+//
+//    if(!stat_file.is_open()) {
+//        cerr << "Input file could not be opened -- exiting." << endl;
+//        exit(EXIT_FAILURE);
+//    }
+//
+//    string line;
+//    string  = "N/A";
+//    while (getline(stat_file, line)) {
+//        smatch m;
+//
+//        //getting number of interrupts
+//        regex ctxt_reg_exp(R"(^ctxt\s+(\d+))");
+//        if (regex_search(line, m, ctxt_reg_exp)) {
+//            ctxt_switch_count =  m[1];
+//        }
+//    }
+//
+//    stat_file.close();
+//    return ctxt_switch_count;
+//}
 
 

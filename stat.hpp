@@ -21,3 +21,9 @@ vector<CPU> get_cpu_stats(string);
 float *convert_to_percent(float, float, float, float);
 
 string get_intr_serv(string);
+
+string get_ctxt_switch_count(string);
+
+string get_swap_ratio(string);
+
+string get_page_ratio(string);

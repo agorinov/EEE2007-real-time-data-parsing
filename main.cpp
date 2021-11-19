@@ -8,6 +8,7 @@
 
 // TODO: optimize data types before submission eg: short vs long vs unsigned int, etc
 // TODO: conform to an accepted naming convention for functions, variables, structs, etc
+// TODO: if file cannot be opened, state the name of the file
 
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic push
@@ -51,7 +52,7 @@ int main(){
         string page_in_out_ratio = "N/A";
         string swap_in_out_ratio = "N/A";
         string interrupts_serviced = get_intr_serv(stat_filename_path);
-        string context_switch_counts = "N/A";
+        string context_switch_counts = get_ctxt_switch_count(stat_filename_path);
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << setw(10) << "Page in/out ratio: " << page_in_out_ratio << " " << setw(25) << "Swap in/out ratio: " << swap_in_out_ratio << endl;
