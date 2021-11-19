@@ -48,6 +48,7 @@ Sys_time get_up_idle_time(string uptime_filename_path, unsigned int number_of_CP
     float idle_time = idle_time_secs/number_of_CPUs; // average idle time per CPU
 
 //    cout << "idle time: " << idle_time << endl;
+    uptime_file.close();
     return Sys_time{up_time, idle_time};
 }
 
