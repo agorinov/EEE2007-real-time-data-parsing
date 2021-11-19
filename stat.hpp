@@ -19,3 +19,5 @@ struct CPU // TODO: rename struct to "core"
 vector<CPU> get_cpu_stats(string);
 
 float *convert_to_percent(float, float, float, float);
+
+string get_intr_serv(string);

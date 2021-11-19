@@ -34,6 +34,7 @@ vector<CPU> get_cpu_stats(string filename){
             all_CPUs.push_back(cpu);
         }
 
+          //getting number of interrupts
 //        regex intr_reg_exp(R"(^intr\s+(\d+))");
 //        if (regex_search(line, m, intr_reg_exp)) {
 //
@@ -61,4 +62,31 @@ float *convert_to_percent(float busy_time, float nice_time, float system_time, f
 
     return cpu_perc;
 }
+
+string get_intr_serv(string filename){
+
+    ifstream stat_file(filename);
+
+    if(!stat_file.is_open()) {
+        cerr << "Input file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    string line;
+    string interrupts_serviced = "N/A";
+    while (getline(stat_file, line)) {
+        smatch m;
+
+    //getting number of interrupts
+        regex intr_reg_exp(R"(^intr\s+(\d+))");
+        if (regex_search(line, m, intr_reg_exp)) {
+
+            interrupts_serviced =  m[1];
+        }
+    }
+
+    stat_file.close();
+    return interrupts_serviced;
+}
+
 

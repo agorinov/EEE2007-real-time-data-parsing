@@ -50,7 +50,7 @@ int main(){
 
         string page_in_out_ratio = "N/A";
         string swap_in_out_ratio = "N/A";
-        string interrupts_serviced = "N/A";
+        string interrupts_serviced = get_intr_serv(stat_filename_path);
         string context_switch_counts = "N/A";
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
