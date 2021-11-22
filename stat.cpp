@@ -99,7 +99,7 @@ string get_ctxt_switch_count(string filename){
     }
 
     string line;
-    string ctxt_switch_count = "N/A";
+    string ctxt_switch_count;
     while (getline(stat_file, line)) {
         smatch m;
 
@@ -112,6 +112,31 @@ string get_ctxt_switch_count(string filename){
 
     stat_file.close();
     return ctxt_switch_count;
+}
+
+Quantity format_count(string count){
+    Quantity q {};
+    q.number = stof(count);
+
+//    cout << "count: " << q.number << endl;
+
+    switch (count.length()){
+        case 4:
+        case 5:
+        case 6: q.multiplier = "thousand"; q.number = stof(count)/1000; break;
+        case 7:
+        case 8:
+        case 9: q.multiplier = "million"; q.number = stof(count)/1000000; break;
+        case 10:
+        case 11:
+        case 12: q.multiplier = "billion"; q.number = stof(count)/1000000000; break;
+        default: q.multiplier = ""; break;
+    }
+
+//    cout << "count: " << q.number << endl;
+//    cout << "multiplier" << endl;
+
+    return q;
 }
 
 //string get_swap_ratio(string filename){

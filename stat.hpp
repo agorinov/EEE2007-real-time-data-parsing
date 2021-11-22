@@ -15,6 +15,12 @@ struct CPU // TODO: rename struct to "core"
     float idle_time;
 };
 
+struct Quantity
+{
+    float number;
+    string multiplier;
+};
+
 
 vector<CPU> get_cpu_stats(string);
 
@@ -23,6 +29,8 @@ float *convert_to_percent(float, float, float, float);
 string get_intr_serv(string);
 
 string get_ctxt_switch_count(string);
+
+Quantity format_count(string);
 
 string get_swap_ratio(string);
 

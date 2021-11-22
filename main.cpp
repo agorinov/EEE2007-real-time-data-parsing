@@ -51,12 +51,14 @@ int main(){
 
         string page_in_out_ratio = "N/A";
         string swap_in_out_ratio = "N/A";
-        string interrupts_serviced = get_intr_serv(stat_filename_path);
-        string context_switch_counts = get_ctxt_switch_count(stat_filename_path);
+        Quantity interrupts_serviced = format_count(get_intr_serv(stat_filename_path));
+        Quantity context_switch_counts = format_count(get_ctxt_switch_count(stat_filename_path));
 
         cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << fixed << setprecision(2);
         cout << setw(10) << "Page in/out ratio: " << page_in_out_ratio << " " << setw(25) << "Swap in/out ratio: " << swap_in_out_ratio << endl;
-        cout << setw(10) << "Interrupts serviced: " << interrupts_serviced << " " << setw(27) << "Context switch counts: " << context_switch_counts << endl;
+        cout << setw(10) << "Interrupts serviced: " << interrupts_serviced.number << " " <<interrupts_serviced.multiplier;
+        cout << setw(27) << "Context switch counts: " << context_switch_counts.number << " " << context_switch_counts.multiplier << endl;
 
 
         // absolute path of input dummy file containing meminfo data
