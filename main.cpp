@@ -26,10 +26,9 @@ int main(){
         allCores = getCpuStats(statPseudofilePath);
         unsigned short numberOfCores = allCores.size();
 
-//        cout << "---------------------------------------------------------------------------------------------" << endl;
-        cout << setw(60) << setfill('-') << '-' << setfill(' ') << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Total Core Cores: " << numberOfCores << endl;
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Core" << setw(10) << "busy" << setw(12) << "idle" << setw(13) << "system" << setw(10) << "nice" << endl;
 
         float *cpuPercent;
@@ -50,7 +49,7 @@ int main(){
         Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
         Quantity contextSwitchCounts = formatCount(getContextSwitchCount(statPseudofilePath));
 
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << fixed << setprecision(2);
         cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35) << "Swap in/out ratio: " << swapInOutRatio << endl;
         cout << setw(10) << "Interrupts serviced: " << interruptsServiced.number << " " << interruptsServiced.multiplier;
@@ -63,18 +62,18 @@ int main(){
 
         string freeMemory, totalMemory, buffersMemory, cachedMemory;
 
-        totalMemory = get_memory_stats(meminfoPseudofilePath, "MemTotal:");
-        freeMemory = get_memory_stats(meminfoPseudofilePath, "MemFree:");
-        buffersMemory = get_memory_stats(meminfoPseudofilePath, "Buffers:");
-        cachedMemory = get_memory_stats(meminfoPseudofilePath, "Cached:");
+        totalMemory = getMemoryStats(meminfoPseudofilePath, "MemTotal:");
+        freeMemory = getMemoryStats(meminfoPseudofilePath, "MemFree:");
+        buffersMemory = getMemoryStats(meminfoPseudofilePath, "Buffers:");
+        cachedMemory = getMemoryStats(meminfoPseudofilePath, "Cached:");
 
 
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "MEMORY" << setw(12) << "Total: " << totalMemory << endl;
         cout << setw(17) << "Free: " << freeMemory << endl;
         cout << setw(20) << "Buffers: " << buffersMemory << endl;
         cout << setw(19) << "Cached: " << cachedMemory << endl;
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
         string uptimePseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                       "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
@@ -93,12 +92,12 @@ int main(){
 
         EnergyUsed energyUsed = calculateEnergyUsed(upIdleTime.upTime, upIdleTime.idleTime);
 
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "ENERGY" << endl;
         cout << fixed << setprecision(2);
         cout << setw(28) << "In Active State: " << energyUsed.activeEnergy << " MJoules" << endl;
         cout << setw(26) << "In Idle State: " << energyUsed.idleEnergy << " MJoules" << endl;
-        cout << "---------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
 
 

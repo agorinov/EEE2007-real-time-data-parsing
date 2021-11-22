@@ -6,4 +6,4 @@
 
 using namespace std;
 
-string get_memory_stats(string file, string field);
+string getMemoryStats(string meminfoPseudofilePath, string field);
