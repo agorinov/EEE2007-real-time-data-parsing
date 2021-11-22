@@ -32,13 +32,13 @@ int main(){
         cout << "Core" << setw(10) << "busy" << setw(12) << "idle" << setw(13) << "system" << setw(10) << "nice" << endl;
 
         float *cpuPercent;
-        for (Core cpu: allCores) {
+        for (Core core: allCores) {
 
-            cpuPercent = convertToPercent(cpu.busyTime, cpu.niceTime, cpu.systemTime, cpu.idleTime);
+            cpuPercent = convertToPercent(core.busyTime, core.niceTime, core.systemTime, core.idleTime);
 
             cout << fixed;
             cout << setprecision(2);
-            cout << cpu.name << setw(10) << cpuPercent[0] << '%' << setw(10) << cpuPercent[3] << '%' << setw(10)
+            cout << core.name << setw(10) << cpuPercent[0] << '%' << setw(10) << cpuPercent[3] << '%' << setw(10)
                  << cpuPercent[2] << '%' << setw(10) << cpuPercent[1] << '%' << endl;
 
         }

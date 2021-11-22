@@ -45,7 +45,7 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
 
 //    cout << "upTimeSecs: " << upTimeSecs << endl;
     float upTime = upTimeSecs;
-    float idleTime = idleTimeSecs / numberOfCores; // average idle time per Core
+    float idleTime = idleTimeSecs / (float)numberOfCores; // average idle time per Core
 
 //    cout << "idle time: " << idleTime << endl;
     uptimeFile.close();
