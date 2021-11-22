@@ -8,113 +8,105 @@
 //      idle: twiddling thumbs
 // store data in a struct
 // return vector of structs which scales according to number of CPUs
-vector<CPU> get_cpu_stats(string filename){ //TODO: consider returning pointers to save memory
+vector<Core> getCpuStats(string filename){ //TODO: consider returning pointers to save memory
 
-    ifstream stat_file(filename);
+    ifstream statFile(filename);
 
-    if(!stat_file.is_open()) {
+    if(!statFile.is_open()) {
         cerr << "Input file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
-    vector<CPU> all_CPUs;
+    vector<Core> CPU;
     string line;
-    while (getline(stat_file, line)) {
+    while (getline(statFile, line)) {
         smatch m;
-        regex cpu_reg_exp(R"(^(cpu\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+))");
-        if (regex_search(line, m, cpu_reg_exp)) {
+        regex cpuRegExp(R"(^(cpu\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+))");
+        if (regex_search(line, m, cpuRegExp)) {
 
-            CPU cpu{};
+            Core cpu{};
             cpu.name = m[1];
-            cpu.busy_time = stof(m[2]);
-            cpu.nice_time = stof(m[3]);
-            cpu.system_time = stof(m[4]);
-            cpu.idle_time = stof(m[5]);
+            cpu.busyTime = stof(m[2]);
+            cpu.niceTime = stof(m[3]);
+            cpu.systemTime = stof(m[4]);
+            cpu.idleTime = stof(m[5]);
 
-            all_CPUs.push_back(cpu);
+            CPU.push_back(cpu);
         }
-
-          //getting number of interrupts
-//        regex intr_reg_exp(R"(^intr\s+(\d+))");
-//        if (regex_search(line, m, intr_reg_exp)) {
-//
-//
-//        }
-
         }
-    stat_file.close();
-    return all_CPUs;
+    statFile.close();
+    return CPU;
 }
 
-// convert CPU stats to percentages and store them as float values in an array
+// convert Core stats to percentages and store them as float values in an array
 // return a pointer to array
-float *convert_to_percent(float busy_time, float nice_time, float system_time, float idle_time){
+float *convertToPercent(float busyTime, float niceTime, float systemTime, float idleTime){
 
-    static float cpu_perc[4]; // needs to be static otherwise output is weird
+    static float cpuPercent[4]; // needs to be static otherwise output is weird
 
-    float total = busy_time + nice_time + system_time + idle_time;
+    float total = busyTime + niceTime + systemTime + idleTime;
 
-    cpu_perc[0] = busy_time / total * 100;
-    cpu_perc[1] = nice_time / total * 100;
-    cpu_perc[2] = system_time / total * 100;
-    cpu_perc[3] = idle_time / total * 100;
+    cpuPercent[0] = busyTime / total * 100;
+    cpuPercent[1] = niceTime / total * 100;
+    cpuPercent[2] = systemTime / total * 100;
+    cpuPercent[3] = idleTime / total * 100;
 
 
-    return cpu_perc;
+    return cpuPercent;
 }
 
-string get_intr_serv(string filename){
+string getInterruptsServiced(string filename){
 
-    ifstream stat_file(filename);
+    ifstream statFile(filename);
 
-    if(!stat_file.is_open()) {
+    if(!statFile.is_open()) {
         cerr << "Input file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
     string line;
-    string interrupts_serviced = "N/A";
-    while (getline(stat_file, line)) {
+    string interruptsServiced = "N/A";
+    while (getline(statFile, line)) {
         smatch m;
 
-    //getting number of interrupts
-        regex intr_reg_exp(R"(^intr\s+(\d+))");
-        if (regex_search(line, m, intr_reg_exp)) {
+    //getting number of interruptsServiced
+        regex intrRegExp(R"(^intr\s+(\d+))");
+        if (regex_search(line, m, intrRegExp)) {
 
-            interrupts_serviced =  m[1];
+            interruptsServiced =  m[1];
         }
     }
 
-    stat_file.close();
-    return interrupts_serviced;
+    statFile.close();
+    return interruptsServiced;
 }
 
-string get_ctxt_switch_count(string filename){
+string getContextSwitchCount(string filename){
 
-    ifstream stat_file(filename);
+    ifstream statFile(filename);
 
-    if(!stat_file.is_open()) {
+    if(!statFile.is_open()) {
         cerr << "Input file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
     string line;
-    string ctxt_switch_count;
-    while (getline(stat_file, line)) {
+    string contextSwitchCount;
+    while (getline(statFile, line)) {
         smatch m;
 
         //getting number of interrupts
-        regex ctxt_reg_exp(R"(^ctxt\s+(\d+))");
-        if (regex_search(line, m, ctxt_reg_exp)) {
-            ctxt_switch_count =  m[1];
+        regex ctxtRegExp(R"(^ctxt\s+(\d+))");
+        if (regex_search(line, m, ctxtRegExp)) {
+            contextSwitchCount =  m[1];
         }
     }
 
-    stat_file.close();
-    return ctxt_switch_count;
+    statFile.close();
+    return contextSwitchCount;
 }
 
-Quantity format_count(string count){
+Quantity formatCount(string count){
     Quantity q {};
     q.number = stof(count);
 

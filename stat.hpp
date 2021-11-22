@@ -6,13 +6,13 @@
 
 using namespace std;
 
-struct CPU // TODO: rename struct to "core"
+struct Core
 {
     string name;
-    float busy_time;
-    float nice_time;
-    float system_time;
-    float idle_time;
+    float busyTime;
+    float niceTime;
+    float systemTime;
+    float idleTime;
 };
 
 struct Quantity
@@ -22,15 +22,15 @@ struct Quantity
 };
 
 
-vector<CPU> get_cpu_stats(string);
+vector<Core> getCpuStats(string filename);
 
-float *convert_to_percent(float, float, float, float);
+float *convertToPercent(float, float, float, float);
 
-string get_intr_serv(string);
+string getInterruptsServiced(string filename);
 
-string get_ctxt_switch_count(string);
+string getContextSwitchCount(string filename);
 
-Quantity format_count(string);
+Quantity formatCount(string count);
 
 string get_swap_ratio(string);
 

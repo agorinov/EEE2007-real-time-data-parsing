@@ -6,18 +6,18 @@
 
 using namespace std;
 
-struct Sys_time{
-    float up_time;
-    float idle_time;
+struct UpIdleTime{
+    float upTime;
+    float idleTime;
 };
 
-struct Energy_used{
-    float active_energy;
-    float idle_energy;
+struct EnergyUsed{
+    float activeEnergy;
+    float idleEnergy;
 };
 
-Sys_time get_up_idle_time(string, unsigned int);
+UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores);
 
-string seconds_to_time(unsigned int);
+string secondsToTime(unsigned int);
 
-Energy_used calculate_energy_used(float, float);
+EnergyUsed calculateEnergyUsed(float, float);
