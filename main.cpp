@@ -16,11 +16,21 @@ using namespace std;
 
 int main(){
 
+    // absolute path of input dummy file containing stat data
+    string statPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
+
+    // absolute path of input dummy file containing meminfo data
+    string meminfoPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                   "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
+
+    // absolute path of input dummy file containing uptime data
+    string uptimePseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
+                                  "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
+
+
     while(true) {
         system("cls"); // TODO: change command to "clear" before submitting
-
-        string statPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                    "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
 
         vector<Core> allCores; // vector containing structs of type Core
         allCores = getCpuStats(statPseudofilePath);
@@ -29,21 +39,20 @@ int main(){
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Total Core Cores: " << numberOfCores << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-        cout << "Core" << setw(10) << "busy" << setw(12) << "idle" << setw(13) << "system" << setw(10) << "nice" << endl;
+        cout << "Core" << setw(11) << "busy" << setw(11) << "idle" << setw(11) << "system" << setw(11) << "nice" << endl;
 
         float *cpuPercent;
         for (Core core: allCores) {
 
-            cpuPercent = convertToPercent(core.busyTime, core.niceTime, core.systemTime, core.idleTime);
+            // parameters passed by reference, converted to percentages within function
+            convertToPercent(core.busyTime, core.niceTime, core.systemTime, core.idleTime);
 
             cout << fixed;
             cout << setprecision(2);
-            cout << core.name << setw(10) << cpuPercent[0] << '%' << setw(10) << cpuPercent[3] << '%' << setw(10)
-                 << cpuPercent[2] << '%' << setw(10) << cpuPercent[1] << '%' << endl;
+            cout << core.name << setw(10) << core.busyTime << '%' << setw(10) << core.idleTime << '%' << setw(10)
+                 << core.systemTime << '%' << setw(10) << core.niceTime << '%' << endl;
 
         }
-        //    delete[] cpuPercent; //TODO: find out if array memory needs to be freed
-
         string pageInOutRatio = "N/A";
         string swapInOutRatio = "N/A";
         Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
@@ -55,10 +64,6 @@ int main(){
         cout << setw(10) << "Interrupts serviced: " << interruptsServiced.number << " " << interruptsServiced.multiplier;
         cout << setw(27) << "Context switch counts: " << contextSwitchCounts.number << " " << contextSwitchCounts.multiplier << endl;
 
-
-        // absolute path of input dummy file containing meminfo data
-        string meminfoPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                       "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
 
         string freeMemory, totalMemory, buffersMemory, cachedMemory;
 
@@ -74,10 +79,6 @@ int main(){
         cout << setw(20) << "Buffers: " << buffersMemory << endl;
         cout << setw(19) << "Cached: " << cachedMemory << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-
-        string uptimePseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                      "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
-
 
         UpIdleTime upIdleTime = getUpIdleTime(uptimePseudofilePath, numberOfCores);
 

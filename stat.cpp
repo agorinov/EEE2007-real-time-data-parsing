@@ -40,19 +40,15 @@ vector<Core> getCpuStats(string filename){ //TODO: consider returning pointers t
 
 // convert Core stats to percentages and store them as float values in an array
 // return a pointer to array
-float *convertToPercent(float busyTime, float niceTime, float systemTime, float idleTime){
+void convertToPercent(float& busyTime, float& niceTime, float& systemTime, float& idleTime){
 
-    static float cpuPercent[4]; // needs to be static otherwise output is weird
+    float totalTime = busyTime + niceTime + systemTime + idleTime;
 
-    float total = busyTime + niceTime + systemTime + idleTime;
+    busyTime = busyTime / totalTime * 100;
+    niceTime = niceTime / totalTime * 100;
+    systemTime = systemTime / totalTime * 100;
+    idleTime = idleTime / totalTime * 100;
 
-    cpuPercent[0] = busyTime / total * 100;
-    cpuPercent[1] = niceTime / total * 100;
-    cpuPercent[2] = systemTime / total * 100;
-    cpuPercent[3] = idleTime / total * 100;
-
-
-    return cpuPercent;
 }
 
 string getInterruptsServiced(string filename){
@@ -146,7 +142,7 @@ Quantity formatCount(string count){
 //        smatch m;
 //
 //        //getting number of interrupts
-//        regex ctxt_reg_exp(R"(^ctxt\s+(\d+))");
+//        regex ctxt_reg_exp(R"(^swap\s+(\d+))");
 //        if (regex_search(line, m, ctxt_reg_exp)) {
 //            ctxt_switch_count =  m[1];
 //        }

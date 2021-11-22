@@ -24,7 +24,7 @@ struct Quantity
 
 vector<Core> getCpuStats(string filename);
 
-float *convertToPercent(float, float, float, float);
+void convertToPercent(float&, float&, float&, float&);
 
 string getInterruptsServiced(string filename);
 
