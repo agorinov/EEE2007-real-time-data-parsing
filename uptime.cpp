@@ -54,9 +54,9 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
 
 string secondsToTime(unsigned int totalSeconds){
 
-    unsigned int hours;
-    unsigned int minutes;
-    unsigned int seconds;
+    unsigned short hours;
+    unsigned short minutes;
+    unsigned short seconds;
 
     hours = totalSeconds / 3600;
     minutes = (totalSeconds % 3600) / 60;

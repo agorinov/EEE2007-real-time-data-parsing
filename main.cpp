@@ -24,7 +24,7 @@ int main(){
 
         vector<Core> allCores; // vector containing structs of type Core
         allCores = getCpuStats(statPseudofilePath);
-        unsigned int numberOfCores = allCores.size();
+        unsigned short numberOfCores = allCores.size();
 
 //        cout << "---------------------------------------------------------------------------------------------" << endl;
         cout << setw(60) << setfill('-') << '-' << setfill(' ') << endl;
