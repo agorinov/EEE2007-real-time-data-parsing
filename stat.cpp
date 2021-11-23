@@ -8,12 +8,12 @@
 //      idle: twiddling thumbs
 // store data in a struct
 // return vector of structs which scales according to number of CPUs
-vector<Core> getCpuStats(string filename){ //TODO: consider returning pointers to save memory
+vector<Core> getCpuStats(string filename){
 
     ifstream statFile(filename);
 
     if(!statFile.is_open()) {
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Stat could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -102,6 +102,8 @@ string getContextSwitchCount(string filename){
     return contextSwitchCount;
 }
 
+// Convert count to struct containing number and multiplier as thousand, million, or billion
+// eg: 12345678 becomes 12.35 million
 Quantity formatCount(string count){
     Quantity q {};
     q.number = stof(count);

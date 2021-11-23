@@ -10,24 +10,13 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
     ifstream uptimeFile(uptimePseudofilePath);
 
     if(!uptimeFile.is_open()){
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Uptime file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
     string line;
     float upTimeSecs = 0;
     float idleTimeSecs = 0;
-
-//    getline(uptimeFile, line);
-//
-//    // split space-delimited line into two values
-//    string space_delimiter = " ";
-//    size_t pos = 0;
-//    pos = line.find(space_delimiter);
-//    upTimeSecs = stof(line.substr(0, pos));
-//    line.erase(0, pos + space_delimiter.length());
-//    idleTimeSecs = stof(line);
-
 
     string token;
     bool obtainedSecondValue = false;
