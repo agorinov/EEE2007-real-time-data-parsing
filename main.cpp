@@ -30,18 +30,23 @@ int main(){
 
 
     while(true) {
+
+        // clears terminal
         system("cls"); // TODO: change command to "clear" before submitting
 
+        // ----------------------------------------- STAT --------------------------------------------------------------
+
         vector<Core> allCores; // vector containing structs of type Core
-        allCores = getCpuStats(statPseudofilePath);
+        allCores = getCpuStats(statPseudofilePath); // populates vector with data about CPU cores
         unsigned short numberOfCores = allCores.size();
 
+        // prints header
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Total Core Cores: " << numberOfCores << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Core" << setw(11) << "busy" << setw(11) << "idle" << setw(11) << "system" << setw(11) << "nice" << endl;
 
-        float *cpuPercent;
+        // loops through vector and prints data about CPU cores
         for (Core core: allCores) {
 
             // parameters passed by reference, converted to percentages within function
@@ -51,13 +56,16 @@ int main(){
             cout << setprecision(2);
             cout << core.name << setw(10) << core.busyTime << '%' << setw(10) << core.idleTime << '%' << setw(10)
                  << core.systemTime << '%' << setw(10) << core.niceTime << '%' << endl;
-
         }
-        string pageInOutRatio = "N/A";
-        string swapInOutRatio = "N/A";
+
+        string pageInOutRatio = "N/A"; // values do not exist in pseudofile
+        string swapInOutRatio = "N/A"; // values do not exist in pseudofile
+
+        // gets data from stat about interrupts and context switches
         Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
         Quantity contextSwitchCounts = formatCount(getContextSwitchCount(statPseudofilePath));
 
+        // prints data
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << fixed << setprecision(2);
         cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35) << "Swap in/out ratio: " << swapInOutRatio << endl;
@@ -65,13 +73,13 @@ int main(){
         cout << setw(27) << "Context switch counts: " << contextSwitchCounts.number << " " << contextSwitchCounts.multiplier << endl;
 
 
+        // ---------------------------------------- MEMINFO ------------------------------------------------------------
         string freeMemory, totalMemory, buffersMemory, cachedMemory;
 
         totalMemory = getMemoryStats(meminfoPseudofilePath, "MemTotal:");
         freeMemory = getMemoryStats(meminfoPseudofilePath, "MemFree:");
         buffersMemory = getMemoryStats(meminfoPseudofilePath, "Buffers:");
         cachedMemory = getMemoryStats(meminfoPseudofilePath, "Cached:");
-
 
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "MEMORY" << setw(12) << "Total: " << totalMemory << endl;
@@ -80,6 +88,7 @@ int main(){
         cout << setw(19) << "Cached: " << cachedMemory << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
+        // ---------------------------------------- UPTIME -------------------------------------------------------------
         UpIdleTime upIdleTime = getUpIdleTime(uptimePseudofilePath, numberOfCores);
 
         string upTime = secondsToTime(upIdleTime.upTime);
@@ -100,18 +109,11 @@ int main(){
         cout << setw(26) << "In Idle State: " << energyUsed.idleEnergy << " MJoules" << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
-
-
-
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+        this_thread::sleep_for(std::chrono::milliseconds(500)); // pauses for 500 milliseconds
 
         break; //TODO: delete before submitting
-
     }
-
     return 0;
 }
-
-
 // CLion-specific TODO: remove before submitting
 #pragma clang diagnostic pop
