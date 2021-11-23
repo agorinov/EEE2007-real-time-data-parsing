@@ -6,7 +6,6 @@
 #include <chrono>
 #include <thread>
 
-// TODO: optimize data types before submission eg: short vs long vs unsigned int, etc
 // TODO: if file cannot be opened, state the name of the file
 
 // CLion-specific TODO: remove before submitting
@@ -16,15 +15,15 @@ using namespace std;
 
 int main(){
 
-    // absolute path of input dummy file containing stat data
+    // stat path
     string statPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                 "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
 
-    // absolute path of input dummy file containing meminfo data
+    // meminfo path
     string meminfoPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                    "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
 
-    // absolute path of input dummy file containing uptime data
+    // uptime path
     string uptimePseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
                                   "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
 
@@ -62,15 +61,16 @@ int main(){
         string swapInOutRatio = "N/A"; // values do not exist in pseudofile
 
         // gets data from stat about interrupts and context switches
-        Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
-        Quantity contextSwitchCounts = formatCount(getContextSwitchCount(statPseudofilePath));
+        Quantity intrServ = formatCount(getInterruptsServiced(statPseudofilePath));
+        Quantity ctxtSwitches = formatCount(getContextSwitchCount(statPseudofilePath));
 
         // prints data
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << fixed << setprecision(2);
-        cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35) << "Swap in/out ratio: " << swapInOutRatio << endl;
-        cout << setw(10) << "Interrupts serviced: " << interruptsServiced.number << " " << interruptsServiced.multiplier;
-        cout << setw(27) << "Context switch counts: " << contextSwitchCounts.number << " " << contextSwitchCounts.multiplier << endl;
+        cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35);
+        cout << "Swap in/out ratio: " << swapInOutRatio << endl;
+        cout << setw(10) << "Interrupts serviced: " << intrServ.number << " " << intrServ.multiplier;
+        cout << setw(27) << "Context switch counts: " << ctxtSwitches.number << " " << ctxtSwitches.multiplier << endl;
 
 
         // ---------------------------------------- MEMINFO ------------------------------------------------------------
@@ -82,10 +82,10 @@ int main(){
         cachedMemory = getMemoryStats(meminfoPseudofilePath, "Cached:");
 
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-        cout << "MEMORY" << setw(12) << "Total: " << totalMemory << endl;
-        cout << setw(17) << "Free: " << freeMemory << endl;
-        cout << setw(20) << "Buffers: " << buffersMemory << endl;
-        cout << setw(19) << "Cached: " << cachedMemory << endl;
+        cout << "MEMORY" << setw(12) << "Total: " << kiloToMegabytes(totalMemory) << endl;
+        cout << setw(17) << "Free: " << kiloToMegabytes(freeMemory) << endl;
+        cout << setw(20) << "Buffers: " << kiloToMegabytes(buffersMemory) << endl;
+        cout << setw(19) << "Cached: " << kiloToMegabytes(cachedMemory) << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
         // ---------------------------------------- UPTIME -------------------------------------------------------------

@@ -1,15 +1,16 @@
 #include "meminfo.hpp"
 
+// Parse the meminfo file using regex, searching for line containing the string passed to the function
 string getMemoryStats(string meminfoPseudofilePath, string field){
 
-    string result = "No data";
+    string result = "N/A"; // if regex fails to find match, function returns "N/A"
     // checks if line starts with field, followed by some number of spaces, then digits
     // if so, returns digits
 
     ifstream meminfoFile(meminfoPseudofilePath);
 
     if(!meminfoFile.is_open()){
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "meminfo could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
     string line;
@@ -19,11 +20,15 @@ string getMemoryStats(string meminfoPseudofilePath, string field){
         smatch m;
         regex memRegExp("^" + field + "\\s+(\\d+)");
         if (regex_search(line, m, memRegExp)) {
-            //converting from string to int for kB to MB conversion, then back to string
-            result = to_string(stoi(m[1])/1024) + " MB";
+            // cout << "line: " << m[0] << endl;
+            result = m[1];
             break;
         }
     }
     meminfoFile.close();
     return result;
+}
+// Convert kb from string to int, perform kB to MB conversion, return value as string with "MB" appended
+string kiloToMegabytes(string& kb){
+    return to_string(stoi(kb)/1024) + " MB";
 }
