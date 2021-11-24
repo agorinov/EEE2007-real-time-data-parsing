@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "meminfo.hpp"
 #include "stat.hpp"
@@ -25,6 +26,7 @@ int main(){
     // absolute path of input dummy file containing uptime data
     string uptimePseudofilePath = "/proc/uptime";
 
+    unsigned short count = 0;
 
     while(true) {
 
@@ -77,6 +79,13 @@ int main(){
         freeMemory = getMemoryStats(meminfoPseudofilePath, "MemFree:");
         buffersMemory = getMemoryStats(meminfoPseudofilePath, "Buffers:");
         cachedMemory = getMemoryStats(meminfoPseudofilePath, "Cached:");
+
+        // recording value of free memory to file
+        ofstream memoryFile;
+        memoryFile.open("free_memory.txt");
+        memoryFile << count << " " << freeMemory << endl;
+        count++;
+        memoryFile.close();
 
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "MEMORY" << setw(12) << "Total: " << totalMemory << endl;
