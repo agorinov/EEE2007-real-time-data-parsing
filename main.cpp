@@ -17,22 +17,19 @@ using namespace std;
 int main(){
 
     // absolute path of input dummy file containing stat data
-    string statPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\stat.txt";
+    string statPseudofilePath = "/proc/stat";
 
     // absolute path of input dummy file containing meminfo data
-    string meminfoPseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                   "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\meminfo.txt";
+    string meminfoPseudofilePath = "/proc/meminfo";
 
     // absolute path of input dummy file containing uptime data
-    string uptimePseudofilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - "
-                                  "Computer Systems and Microprocessors\\projects\\realtime_data_parsing3\\uptime.txt";
+    string uptimePseudofilePath = "/proc/uptime";
 
 
     while(true) {
 
         // clears terminal
-        system("cls"); // TODO: change command to "clear" before submitting
+        system("clear"); // TODO: change command to "clear" before submitting
 
         // ----------------------------------------- STAT --------------------------------------------------------------
 
@@ -111,7 +108,6 @@ int main(){
 
         this_thread::sleep_for(std::chrono::milliseconds(500)); // pauses for 500 milliseconds
 
-        break; //TODO: delete before submitting
     }
     return 0;
 }
