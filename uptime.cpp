@@ -10,7 +10,7 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
     ifstream uptimeFile(uptimePseudofilePath);
 
     if(!uptimeFile.is_open()){
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Uptime file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
