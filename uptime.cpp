@@ -18,17 +18,6 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
     float upTimeSecs = 0;
     float idleTimeSecs = 0;
 
-//    getline(uptimeFile, line);
-//
-//    // split space-delimited line into two values
-//    string space_delimiter = " ";
-//    size_t pos = 0;
-//    pos = line.find(space_delimiter);
-//    upTimeSecs = stof(line.substr(0, pos));
-//    line.erase(0, pos + space_delimiter.length());
-//    idleTimeSecs = stof(line);
-
-
     string token;
     bool obtainedSecondValue = false;
     // assigns first and second values in line to upTime and idleTime
@@ -45,13 +34,19 @@ UpIdleTime getUpIdleTime(string uptimePseudofilePath, unsigned int numberOfCores
 
 //    cout << "upTimeSecs: " << upTimeSecs << endl;
     float upTime = upTimeSecs;
-    float idleTime = idleTimeSecs / (float)numberOfCores; // average idle time per Core
-
+    float idleTime;
+//  cout << "number of cores: " << numberOfCores << endl;
+    if (numberOfCores != 0) { // validates number of cores
+        idleTime = idleTimeSecs / (float) numberOfCores;// average idle time per Core
+    } else {
+        idleTime = -1; // forcing to -1 if invalid cpu information obtained
+    }
 //    cout << "idle time: " << idleTime << endl;
     uptimeFile.close();
     return UpIdleTime{upTime, idleTime};
 }
-
+// convert seconds to hours, minutes and second
+// return string
 string secondsToTime(unsigned int totalSeconds){
 
     unsigned short hours;
@@ -64,19 +59,28 @@ string secondsToTime(unsigned int totalSeconds){
 
     return to_string(hours) + " hours " + to_string(minutes) + " minutes and " + to_string(seconds) + " seconds";
 }
-
+// calculate CPU's energy consumption given total time since boot and average cpu idle time
+// assumes constant CPU active and idle power
+// returns energy in Mega Joules
 EnergyUsed calculateEnergyUsed(float timeSinceBoot, float idleTime){
+    float activeEnergy;
+    float idleEnergy;
 
+    if (idleTime == -1){ // -1 indicates error
+        activeEnergy = -1;
+        idleEnergy = -1;
+    } else {
 //    cout << "timeSinceBoot: " << timeSinceBoot << endl;
 //    cout << "idle time: " << idleTime << endl;
-    float activeTime = timeSinceBoot - idleTime;
+        float activeTime = timeSinceBoot - idleTime;
 //    cout << "active time: " << activeTime << endl;
 
-    float cpuActivePower = 60; // Watts
-    float cpuIdlePower = 10; // Watts
+        float cpuActivePower = 60; // Watts
+        float cpuIdlePower = 10; // Watts
 
-    float activeEnergy = cpuActivePower * activeTime / 1000000;
-    float idleEnergy = cpuIdlePower * idleTime / 1000000;
+        activeEnergy = cpuActivePower * activeTime / 1000000;
+        idleEnergy = cpuIdlePower * idleTime / 1000000;
 
+    }
     return EnergyUsed{activeEnergy, idleEnergy};
 }

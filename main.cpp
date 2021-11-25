@@ -44,6 +44,9 @@ int main(){
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "Total Core Cores: " << numberOfCores << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
+        if ( numberOfCores == 0){ // handing case where cpu data is invalid
+            cout << setw(63) << "Unable to display CPU information, no CPU data found"  << endl;
+        } else {
         cout << "Core" << setw(11) << "busy" << setw(11) << "idle" << setw(11) << "system" << setw(11) << "nice" << endl;
 
         // loops through vector and prints data about CPU cores
@@ -51,21 +54,21 @@ int main(){
 
             // parameters passed by reference, converted to percentages within function
             convertToPercent(core.busyTime, core.niceTime, core.systemTime, core.idleTime);
-
-            cout << fixed;
-            cout << setprecision(2);
-            cout << core.name << setw(10) << core.busyTime << '%' << setw(10) << core.idleTime << '%' << setw(10)
-                 << core.systemTime << '%' << setw(10) << core.niceTime << '%' << endl;
+                cout << fixed;
+                cout << setprecision(2);
+                cout << core.name << setw(10) << core.busyTime << '%' << setw(10) << core.idleTime << '%' << setw(10)
+                     << core.systemTime << '%' << setw(10) << core.niceTime << '%' << endl;
+            }
         }
 
         string pageInOutRatio = "N/A"; // values do not exist in pseudofile
         string swapInOutRatio = "N/A"; // values do not exist in pseudofile
 
-        // gets data from stat about interrupts and context switches
+        // get data from stat about interrupts and context switches
         Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
         Quantity contextSwitchCounts = formatCount(getContextSwitchCount(statPseudofilePath));
 
-        // prints data
+        // print data
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << fixed << setprecision(2);
         cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35) << "Swap in/out ratio: " << swapInOutRatio << endl;
@@ -104,12 +107,15 @@ int main(){
 
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << "ENERGY" << endl;
-        cout << fixed << setprecision(2);
-        cout << setw(28) << "In Active State: " << energyUsed.activeEnergy << " MJoules" << endl;
-        cout << setw(26) << "In Idle State: " << energyUsed.idleEnergy << " MJoules" << endl;
+        if (energyUsed.idleEnergy == -1){ // checking for validity of idle energy
+            cout << setw(56) << "Unable to calculate energy, no CPU data found"  << endl;
+        } else {
+            cout << fixed << setprecision(2);
+            cout << setw(28) << "In Active State: " << energyUsed.activeEnergy << " MJoules" << endl;
+            cout << setw(26) << "In Idle State: " << energyUsed.idleEnergy << " MJoules" << endl;
+        }
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-
-        this_thread::sleep_for(std::chrono::milliseconds(500)); // pauses for 500 milliseconds
+        this_thread::sleep_for(std::chrono::milliseconds(500)); // pause// for 500 milliseconds
 
         break; //TODO: delete before submitting
     }
