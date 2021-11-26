@@ -32,6 +32,6 @@ string getContextSwitchCount(string filename);
 
 Quantity formatCount(string count);
 
-string get_swap_ratio(string);
+string getSwapRatio(string);
 
-string get_page_ratio(string);
+string getPageRatio(string filename);

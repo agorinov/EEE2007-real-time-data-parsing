@@ -61,19 +61,19 @@ int main(){
             }
         }
 
-        string pageInOutRatio = "N/A"; // values do not exist in pseudofile
-        string swapInOutRatio = "N/A"; // values do not exist in pseudofile
+        string pageInOutRatio = getPageRatio(statPseudofilePath);
+        string swapInOutRatio = getSwapRatio(statPseudofilePath);
 
         // get data from stat about interrupts and context switches
-        Quantity interruptsServiced = formatCount(getInterruptsServiced(statPseudofilePath));
-        Quantity contextSwitchCounts = formatCount(getContextSwitchCount(statPseudofilePath));
+        Quantity intrServ = formatCount(getInterruptsServiced(statPseudofilePath));
+        Quantity ctxtSwitches = formatCount(getContextSwitchCount(statPseudofilePath));
 
         // print data
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         cout << fixed << setprecision(2);
         cout << setw(10) << "Page in/out ratio: " << pageInOutRatio << " " << setw(35) << "Swap in/out ratio: " << swapInOutRatio << endl;
-        cout << setw(10) << "Interrupts serviced: " << interruptsServiced.number << " " << interruptsServiced.multiplier;
-        cout << setw(27) << "Context switch counts: " << contextSwitchCounts.number << " " << contextSwitchCounts.multiplier << endl;
+        cout << setw(10) << "Interrupts serviced: " << intrServ.number << " " << intrServ.multiplier;
+        cout << setw(27) << "Context switch counts: " << ctxtSwitches.number << " " << ctxtSwitches.multiplier << endl;
 
 
         // ---------------------------------------- MEMINFO ------------------------------------------------------------
@@ -85,10 +85,10 @@ int main(){
         cachedMemory = getMemoryStats(meminfoPseudofilePath, "Cached:");
 
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-        cout << "MEMORY" << setw(12) << "Total: " << totalMemory << endl;
-        cout << setw(17) << "Free: " << freeMemory << endl;
-        cout << setw(20) << "Buffers: " << buffersMemory << endl;
-        cout << setw(19) << "Cached: " << cachedMemory << endl;
+        cout << "MEMORY" << setw(12) << "Total: " << kiloToMegabytes(totalMemory) << endl;
+        cout << setw(17) << "Free: " << kiloToMegabytes(freeMemory) << endl;
+        cout << setw(20) << "Buffers: " << kiloToMegabytes(buffersMemory) << endl;
+        cout << setw(19) << "Cached: " << kiloToMegabytes(cachedMemory) << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
 
         // ---------------------------------------- UPTIME -------------------------------------------------------------

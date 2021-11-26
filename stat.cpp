@@ -13,7 +13,7 @@ vector<Core> getCpuStats(string filename){ //TODO: consider returning pointers t
     ifstream statFile(filename);
 
     if(!statFile.is_open()) {
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Stat file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -55,7 +55,7 @@ string getInterruptsServiced(string filename){
     ifstream statFile(filename);
 
     if(!statFile.is_open()) {
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Stat file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -64,7 +64,7 @@ string getInterruptsServiced(string filename){
     while (getline(statFile, line)) {
         smatch m;
 
-    //get number of interruptsServiced
+    //get number of interrupts serviced
         regex intrRegExp(R"(^intr\s+(\d+))");
         if (regex_search(line, m, intrRegExp)) {
 
@@ -81,7 +81,7 @@ string getContextSwitchCount(string filename){
     ifstream statFile(filename);
 
     if(!statFile.is_open()) {
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "Stat file could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -124,4 +124,55 @@ Quantity formatCount(string count){
 //    cout << "multiplier" << endl;
 
     return q;
+}
+
+string getSwapRatio(string filename){
+
+    ifstream stat_file(filename);
+
+    if(!stat_file.is_open()) {
+        cerr << "Stat file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    string line;
+    string swapRatio = "N/A"; // if no match found, return N/A
+    while (getline(stat_file, line)) {
+        smatch m;
+
+        //checks if beginning of line starts with "swap" then some spaces and then some number of digits
+        regex swap_reg_exp(R"(^swap\s+(\d+))");
+        if (regex_search(line, m, swap_reg_exp)) {
+            swapRatio =  m[1];
+        }
+    }
+
+    stat_file.close();
+    return swapRatio;
+}
+
+string getPageRatio(string filename){
+
+    ifstream stat_file(filename);
+
+    if(!stat_file.is_open()) {
+        cerr << "Stat file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    string line;
+    string pageRatio = "N/A"; // if no match found, return N/A
+    while (getline(stat_file, line)) {
+        smatch m;
+
+        //checks if beginning of line starts with "page" then some spaces and then some number of digits
+        regex page_reg_exp(R"(^page\s+(\d+))");
+        if (regex_search(line, m, page_reg_exp)) {
+            pageRatio =  m[1];
+        }
+    }
+
+    stat_file.close();
+    return pageRatio;
+
 }
