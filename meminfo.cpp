@@ -1,15 +1,14 @@
 #include "meminfo.hpp"
 
 // parse meminfo pseudofile to find memory value corresponding to specified field
-// return memory value conveted from kB to MB
+// return memory value in kB
 string getMemoryStats(string meminfoPseudofilePath, string field){
 
-    string result = "No data"; // default value if no match found
-
+    string result = "N/A"; // if regex fails to find match, function returns "N/A"
     ifstream meminfoFile(meminfoPseudofilePath);
 
     if(!meminfoFile.is_open()){
-        cerr << "Input file could not be opened -- exiting." << endl;
+        cerr << "meminfo could not be opened -- exiting." << endl;
         exit(EXIT_FAILURE);
     }
     string line;
@@ -21,11 +20,16 @@ string getMemoryStats(string meminfoPseudofilePath, string field){
         // if so, returns digits
         regex memRegExp("^" + field + "\\s+(\\d+)");
         if (regex_search(line, m, memRegExp)) {
-            //convert from string to int for kB to MB conversion, then back to string
-            result = to_string(stoi(m[1])/1024) + " MB";
+            // cout << "line: " << m[0] << endl;
+            result = m[1];
             break;
         }
     }
     meminfoFile.close();
     return result;
+}
+
+// Convert kb from string to int, perform kB to MB conversion, return value as string with "MB" appended
+string kiloToMegabytes(string& kb){
+    return to_string(stoi(kb)/1024) + " MB";
 }
