@@ -7,3 +7,5 @@
 using namespace std;
 
 string getMemoryStats(string meminfoPseudofilePath, string field);
+
+string kiloToMegabytes(string&);
