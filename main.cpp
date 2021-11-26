@@ -42,7 +42,7 @@ int main(){
 
         // prints header
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
-        cout << "Total Core Cores: " << numberOfCores << endl;
+        cout << "Total CPU Cores: " << numberOfCores << endl;
         cout << setw(80) << setfill('-') << '-' << setfill(' ') << endl;
         if ( numberOfCores == 0){ // handing case where cpu data is invalid
             cout << setw(63) << "Unable to display CPU information, no CPU data found"  << endl;
